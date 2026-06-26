@@ -1,0 +1,23 @@
+{
+  "characters": {
+    "mode": "transparent PNG layer",
+    "source": "generate on flat #00ff00 chroma key, then remove background",
+    "notes": "No scene background baked into character files. Keep generous padding and full body visible."
+  },
+  "backgroundAspectPlan": {
+    "9:16": [
+      "scene-01-bg.png", "scene-02-bg.png", "scene-03-bg.png", "scene-04-bg.png", "scene-05-bg.png", "scene-06-bg.png", "scene-09-bg.png", "scene-11-bg.png", "scene-12-bg.png", "scene-13-bg.png", "scene-14-bg.png", "scene-16-bg.png", "scene-17-bg.png"
+    ],
+    "16:9": [
+      "scene-07-bg.png", "scene-08-bg.png", "scene-10-bg.png", "scene-19-bg.png", "scene-20-bg.png"
+    ],
+    "1:1_topview": [
+      "scene-15-bg-topview.png", "scene-18-bg-topview.png", "scene-21-bg.png"
+    ]
+  },
+  "styleLock": {
+    "mood": "청량, 청순, soft summer youth",
+    "palette": "desaturated powder blue, white, cream, pale denim, muted navy, warm natural skin",
+    "avoid": "hip-hop styling, neon, saturated primary colors, fantasy hair, baked-in people on backgrounds"
+  }
+}
