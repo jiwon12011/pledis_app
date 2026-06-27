@@ -1,0 +1,105 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   tokens.css — TWS 픽셀 컷씬 앱 CSS 토큰 (SSOT: docs/기획서.md 3·6·7장)
+   소유: designer. tokens.js 와 동일 값. 새 값 만들지 않음.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── 웹폰트 ──────────────────────────────────────────────────────────────
+   영문 픽셀: Press Start 2P(타이틀) + VT323(본문/숫자) — Google Fonts.
+   한글 픽셀: Galmuri11 — quiple/galmuri jsDelivr CDN (woff2, 픽셀 비트맵).
+   모두 font-display:swap. 한글 서브셋 권장: 실제 사용 자막 글자만 추려
+   unicode-range 서브셋(pyftsubset)으로 줄이면 초기 로드 예산(≤110KB) 보호. */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+@font-face {
+  font-family: 'Galmuri11';
+  src: url('https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/Galmuri11.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* 캔버스 / 레이아웃 (px, 기획서 6장 환산) */
+  --canvas-w: 360px;
+  --canvas-h: 640px;
+  --status-h: 40px;
+  --content-y: 40px;
+  --content-h: 480px;
+  --subtitle-h: 40px;   /* 자막 패널 */
+  --nav-h: 80px;        /* 네비+인디 */
+  --safe-x: 20px;       /* 씬 아트 세이프박스 좌우 여백 */
+  --safe-w: 320px;
+  --tap-min: 44px;      /* 버튼 최소 타깃 */
+
+  /* 마스터 팔레트 16색 (기획서 3장) */
+  --color-sky-light:  #87CEEB;
+  --color-sky-mid:    #4A9FD8;
+  --color-sky-dark:   #2E5F99;
+  --color-mint:       #7FFFD4;
+  --color-navy:       #1C2841;
+  --color-sunset:     #FF8C42;
+  --color-skin:       #F4A080;
+  --color-cloud:      #FFFACD;
+  --color-concrete:   #9E9E9E;
+  --color-court-blue: #1E90FF;
+  --color-outline:    #4A4A4A;
+  --color-white:      #FFFFFF;
+  --color-black:      #000000;
+  --color-holo-pink:  #FF69B4;
+  --color-holo-purple:#9370DB;
+  --color-umbrella:   #B0E0E6;            /* 불투명 기준값 */
+  --color-umbrella-50:rgba(176,224,230,.5); /* 투명 우산 50% 알파 */
+
+  /* 자막 패널 토큰 (기획서 7장 접근성: 대비 ≥12.5:1) */
+  /* 남색 .95 알파 + 흰색 텍스트. 불투명 navy↔white = 14.7:1, .95 알파로도 ≥12.5:1.
+     backdrop-filter 금지 — 단색 반투명으로 대체(기획서 5장). */
+  --subtitle-bg: rgba(28, 40, 65, .95);
+  --subtitle-fg: var(--color-white);
+
+  /* 포커스 (기획서 6장: 2px #FF8C42) */
+  --focus-ring: 2px solid var(--color-sunset);
+
+  /* 폰트 */
+  --font-pixel-ko: 'Galmuri11', 'NeoDunggeunmo', 'DungGeunMo', monospace;
+  --font-pixel-en: 'Press Start 2P', 'VT323', 'Galmuri11', monospace;
+}
+
+/* ── 픽셀 정합 유틸 ──────────────────────────────────────────────────────
+   정수배 스케일 + nearest-neighbor. 캔버스/스프라이트 img에 부여. */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; /* 구형 폴백 */
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* ── 자막 패널 ───────────────────────────────────────────────────────────
+   DOM 오버레이. 한글 픽셀폰트. 미결(c): 360px 폭에서 16px 권장,
+   한 줄 ≤18 한글자, 최대 2줄(2줄 시 14px·≤20자). */
+.subtitle-panel {
+  position: absolute;
+  left: 0;
+  bottom: var(--nav-h);            /* 네비 위 = y 520 위치 */
+  width: var(--canvas-w);
+  height: var(--subtitle-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  background: var(--subtitle-bg);
+  color: var(--subtitle-fg);
+  font-family: var(--font-pixel-ko);
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: .5px;
+  text-align: center;
+  -webkit-font-smoothing: none;    /* 픽셀폰트 안티에일리어싱 제거 */
+  font-smooth: never;
+}
+
+/* ── 버튼 포커스 (기획서 6·7장) ─────────────────────────────────────────── */
+button:focus-visible,
+.nav-btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
