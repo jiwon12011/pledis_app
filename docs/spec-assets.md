@@ -85,14 +85,15 @@
 | frame-summer-patchwork | 941×1672 | 중앙 투명 | P2 포카 프레임 |
 | frame-wavy-yellow | 941×1672 | 중앙 투명 | P2 포카 프레임 |
 
-## 6. 필수 보정 목록 (빌드 파이프라인 자동 처리)
+## 6. 필수 보정 목록 (빌드 파이프라인 자동 처리 — 구현 중 실측으로 갱신)
 
-1. `effect-water-droplets`: 근백색(RGB≥246 & 채도<8) → α=0 화이트키, 이후 연결요소 라벨링으로 6프레임 bbox 추출 → `opt/effects/droplet-f{1..6}.webp` + 매니페스트에 bbox 기록
-2. `umbrella-color-mint`, `umbrella-color-purple`: 모서리 흰 사각 아티팩트 제거(캐노피 외접원 밖 α=0)
-3. `C*-dance`, `C*-slide`: 외곽 8px 링 마스크(인접 프레임 잔상 제거)
-4. `effect-clouds`: 2×2 슬라이스 → cloud-{1..4}
-5. `effect-fireworks`: 가로 5등분 슬라이스 → firework-f{1..5}
-6. `C*-walk-sheet`, `C*-run-sheet`: 무보정(181×181×8 정확) — 슬라이스 불필요, CSS steps용 원형 유지
+1. `effect-water-droplets`: 화이트키(min(R,G,B)≥235 & 채도차≤14 → α=0) + **최상단 12px 가로 띠 아티팩트 제거** → 연결요소 라벨링을 6열 고정 빈으로 병합해 6프레임 bbox 추출 + 매니페스트 기록
+2. `umbrella-color-mint`, `umbrella-color-purple`: 가장자리 접촉 불투명 백색 연결요소 제거(민트의 반투명 캐노피는 보존)
+3. `C*-dance`, `C*-slide`: 연결요소 분석 — 최대 덩어리(본체)만 유지, 좌우 가장자리 접촉 조각(인접 프레임 잔상) 제거
+4. `C*-walk-sheet`, `C*-run-sheet`: **각 181px 칸 경계에 흰 세로 구분선이 구워져 있음** → 칸당 좌우·상하 4px 소거 (프레임 그리드 자체는 181×8 정확)
+5. **모든 단일 포즈·표정·씬 컷**: 일부 이미지 가장자리에 흰 경계선 잔재(예: C3-sit 상단·우측) → 전체에 3px 링 소거
+6. `effect-clouds` 2×2 슬라이스 → cloud-{1..4}, `effect-fireworks` 가로 5등분 → firework-f{1..5} — **슬라이스 절단면에 구분선 잔재** → 각 슬라이스 3px 링 소거
+7. 인코딩: 배경=1280px 리사이즈 후 lossy q82 vs lossless 중 작은 쪽 / 캐릭터·컷·UI=near-lossless q60 / 이펙트 슬라이스=lossless
 
 ## 7. 이미지 최적화 파이프라인 (`tools/optimize-assets.mjs`, sharp)
 

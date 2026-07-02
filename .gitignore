@@ -1,3 +1,8 @@
 
 # jiwon-harness 런타임 (테스트·빌드 캡처)
 .jiwon-team/
+
+# 앱 빌드 산출물 (opt는 tools/optimize-assets.mjs로 재생성)
+app/node_modules/
+app/dist/
+app/public/opt/
