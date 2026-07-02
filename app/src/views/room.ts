@@ -62,7 +62,7 @@ export function renderRoom(root: HTMLElement, nav: Nav) {
 
   function updateHud() {
     hudDroplets.textContent = String(save.droplets);
-    hudTitle.textContent = `「${scene.title}」`;
+    hudTitle.textContent = `📍 ${scene.title}`;
   }
 
   // ---------- 스테이지 레이아웃(배경 cover 좌표계) ----------

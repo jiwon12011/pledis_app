@@ -12,6 +12,7 @@
   background-position: center;
   transition: opacity 0.3s ease;
   will-change: transform;
+  overflow: hidden; /* 스프라이트·이펙트가 무대(앱 화면) 밖으로 나가지 않게 */
 }
 .stage.shake { animation: stage-shake 0.4s linear; }
 @keyframes stage-shake { 20% { margin-left: -4px; } 40% { margin-left: 4px; } 60% { margin-left: -3px; } 80% { margin-left: 3px; } }

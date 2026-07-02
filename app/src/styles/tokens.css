@@ -17,11 +17,20 @@
 html, body { margin: 0; height: 100%; overscroll-behavior: none; }
 body {
   font-family: var(--font);
-  background: var(--c-sky);
+  background: var(--c-ink);
   color: var(--c-ink);
   user-select: none;
 }
-#app { height: 100dvh; overflow: hidden; position: relative; }
+/* 앱은 항상 폰 프레임(세로 9:16) — 데스크톱에선 중앙 고정, 모바일에선 전체 화면 */
+#app {
+  height: 100dvh;
+  max-width: min(100vw, calc(100dvh * 0.5625));
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  background: var(--c-sky);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.45);
+}
 
 img { image-rendering: pixelated; }
 
@@ -51,7 +60,7 @@ img { image-rendering: pixelated; }
 }
 
 .toast-host {
-  position: fixed;
+  position: fixed; /* #app이 화면 중앙 고정이라 뷰포트 중앙 = 앱 중앙 */
   left: 50%;
   bottom: calc(88px + env(safe-area-inset-bottom));
   transform: translateX(-50%);

@@ -66,7 +66,7 @@ export const SCENES: SceneSpec[] = [
   },
   {
     id: 'scene-02', title: '불 끄기 전', hint: '스탠드 하나만 켜진 밤', aspect: '9:16', tier: 1, price: 80,
-    member: { x: 15, y: 72, scale: 0.26, pose: 'sit', motion: 'breath' },
+    member: { x: 19, y: 72, scale: 0.26, pose: 'sit', motion: 'breath' },
     effects: [], moodcuts: ['scene-02-C1-sleeping'],
     sleepCut: { cut: 'scene-02-C1-sleeping', x: 21, y: 65, w: 30 },
     tapWeights: W(30, 30, 40, 0), dbl: 'toggleSitStand',
