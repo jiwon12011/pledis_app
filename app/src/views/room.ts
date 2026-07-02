@@ -19,11 +19,10 @@ export function renderRoom(root: HTMLElement, nav: Nav) {
         <span class="scene-title"></span>
       </div>
       <div class="hud hud-bottom">
-        <button class="nav-arrow prev" aria-label="이전 배경"><img alt=""></button>
-        <button class="hud-btn cam" aria-label="포카 메이커(준비 중)" disabled>📷</button>
-        <button class="hud-btn col" aria-label="도감">📚</button>
-        <button class="hud-btn set" aria-label="설정">⚙️</button>
-        <button class="nav-arrow next" aria-label="다음 배경"><img alt=""></button>
+        <button class="nav-arrow prev" aria-label="이전 장면"><img alt=""></button>
+        <button class="hud-btn col" aria-label="도감">📚<span>도감</span></button>
+        <button class="hud-btn set" aria-label="설정">⚙️<span>설정</span></button>
+        <button class="nav-arrow next" aria-label="다음 장면"><img alt=""></button>
       </div>
       <div class="sleep-overlay" hidden><div class="zzz">Z z z…</div></div>
       <div class="modal" hidden></div>
@@ -229,6 +228,24 @@ export function renderRoom(root: HTMLElement, nav: Nav) {
     if (scene.idleB && !reduced) {
       idleBTimer = window.setInterval(() => { if (!document.hidden && !sleeping) runIdleB(scene.idleB!.kind); }, scene.idleB.every);
       intervals.push(idleBTimer);
+    }
+
+    // 첫 방문 안내 — "이 페이지에서 뭘 하는지" (1회)
+    if (!save.flags.homeHintSeen) {
+      save.flags.homeHintSeen = true;
+      commit();
+      const coach = div('coach');
+      coach.innerHTML = `
+        <div class="coach-card">
+          <h3>여기는 ${save.names[save.member]}의 여름 방</h3>
+          <p>👆 <b>멤버를 탭</b>하면 인사하고 물방울(💧)을 줘요</p>
+          <p>👆👆 <b>더블탭</b>은 장면마다 다른 반응</p>
+          <p>◀ ▶ · 스와이프로 <b>다른 장면</b>으로</p>
+          <p>📚 <b>도감</b>에서 물방울로 새 장면 해금 — 총 21곳!</p>
+          <p class="coach-dismiss">탭해서 시작하기</p>
+        </div>`;
+      coach.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); coach.remove(); });
+      roomEl.appendChild(coach);
     }
 
     // scene-21 첫 진입 크레딧

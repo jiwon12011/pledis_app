@@ -186,15 +186,45 @@
   font-weight: 600;
 }
 .hud-btn {
-  font-size: 21px;
-  background: rgba(251, 246, 236, 0.88);
+  font-size: 19px;
+  background: rgba(251, 246, 236, 0.92);
   border: 2px solid var(--c-navy);
   border-radius: 12px;
-  width: 46px; height: 46px;
+  min-width: 56px; height: 52px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px 10px;
+}
+.hud-btn span { font-size: 10px; font-weight: 700; color: var(--c-navy); }
+.nav-arrow { background: none; border: 0; width: 52px; height: 52px; cursor: pointer; padding: 2px; }
+.nav-arrow img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ---------- 첫 방문 안내 ---------- */
+.coach {
+  position: absolute; inset: 0;
+  background: rgba(20, 30, 46, 0.55);
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  padding: 24px;
   cursor: pointer;
 }
-.nav-arrow { background: none; border: 0; width: 52px; height: 52px; cursor: pointer; padding: 4px; overflow: hidden; }
-.nav-arrow img { width: 100%; height: 100%; object-fit: contain; transform: scale(2.4); } /* 원본의 넓은 투명 여백 보정 */
+.coach-card {
+  background: var(--c-cream);
+  border: 2px solid var(--c-navy);
+  border-radius: 16px;
+  padding: 20px 22px;
+  max-width: 340px;
+  box-shadow: var(--shadow);
+  animation: sheet-up 0.3s ease;
+}
+.coach-card h3 { margin: 0 0 10px; font-size: 17px; color: var(--c-navy); }
+.coach-card p { margin: 7px 0; font-size: 14px; line-height: 1.5; }
+.coach-dismiss { text-align: center; color: var(--c-denim); margin-top: 14px !important; font-size: 13px !important; }
 
 /* ---------- 수면/모달 ---------- */
 .sleep-overlay[hidden], .modal[hidden] { display: none; }

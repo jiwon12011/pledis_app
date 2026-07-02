@@ -54,7 +54,7 @@ const W = (neutral: number, laugh: number, shy: number, surprised: number) => ({
 export const SCENES: SceneSpec[] = [
   {
     id: 'scene-01', title: '밤의 계획', hint: '모든 이야기가 시작된 책상', aspect: '9:16', tier: 0, price: 0,
-    member: { x: 52, y: 95, scale: 0.30, pose: 'standing', motion: 'sway' },
+    member: { x: 42, y: 96, scale: 0.26, pose: 'standing', motion: 'sway' },
     idleB: { every: 22000, kind: 'walkAbout' },
     effects: [], moodcuts: ['scene-01-C1-planning'],
     tapWeights: W(20, 40, 25, 15), dbl: 'jump',
@@ -66,7 +66,7 @@ export const SCENES: SceneSpec[] = [
   },
   {
     id: 'scene-02', title: '불 끄기 전', hint: '스탠드 하나만 켜진 밤', aspect: '9:16', tier: 1, price: 80,
-    member: { x: 18, y: 74, scale: 0.28, pose: 'sit', motion: 'breath' },
+    member: { x: 15, y: 72, scale: 0.26, pose: 'sit', motion: 'breath' },
     effects: [], moodcuts: ['scene-02-C1-sleeping'],
     sleepCut: { cut: 'scene-02-C1-sleeping', x: 21, y: 65, w: 30 },
     tapWeights: W(30, 30, 40, 0), dbl: 'toggleSitStand',

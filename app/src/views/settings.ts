@@ -16,22 +16,25 @@ export function renderSettings(root: HTMLElement, nav: { back(): void; reboot():
 
       ${isPersistent() ? '' : '<p class="warn">⚠️ 이 브라우저에선 진행이 저장되지 않아요 (프라이빗 모드?)</p>'}
 
-      <section><h3>함께 지내는 멤버</h3>
+      <div class="settings-body">
+      <section><h3>🏠 함께 지내는 멤버</h3>
         <div class="member-row">
           ${MEMBERS.map((m) => `
             <button class="member-pick ${save.member === m ? 'active' : ''}" data-m="${m}" aria-label="${save.names[m]}">
               <img alt="" src="${url(`ch/${m}/standing`)}">
+              <span class="mp-name">${escapeHtml(save.names[m])}</span>
             </button>`).join('')}
         </div>
         <p class="tip">바꿔도 물방울·해금은 그대로예요</p>
       </section>
 
-      <section><h3>표시 이름</h3>
+      <section><h3>✏️ 멤버 별명</h3>
+        <p class="tip" style="margin-top:0">내가 부르고 싶은 이름으로 바꿔보세요</p>
         ${MEMBERS.map((m) => `
-          <label class="name-edit">${m} <input data-name="${m}" maxlength="12" value="${escapeHtml(save.names[m])}"></label>`).join('')}
+          <label class="name-edit"><input data-name="${m}" maxlength="12" value="${escapeHtml(save.names[m])}"></label>`).join('')}
       </section>
 
-      <section><h3>모션 줄이기</h3>
+      <section><h3>🌀 모션 줄이기</h3>
         <div class="seg">
           <button data-rm="null" class="${rm === null ? 'active' : ''}">시스템 따름</button>
           <button data-rm="true" class="${rm === true ? 'active' : ''}">켬</button>
@@ -39,7 +42,8 @@ export function renderSettings(root: HTMLElement, nav: { back(): void; reboot():
         </div>
       </section>
 
-      <section><h3>세이브</h3>
+      <section><h3>💾 진행 백업</h3>
+        <p class="tip" style="margin-top:0">기기를 바꿀 때 내보내기 → 새 기기에서 가져오기</p>
         <div class="row-btns">
           <button class="btn do-export">내보내기(복사)</button>
           <button class="btn do-import">가져오기</button>
@@ -53,6 +57,7 @@ export function renderSettings(root: HTMLElement, nav: { back(): void; reboot():
         특정 소속사·아티스트와 무관하며 수익을 창출하지 않습니다.<br>
         문의 시 게시를 중단합니다.</p>
       </section>
+      </div>
     </div>`;
 
   root.querySelector('.back')!.addEventListener('click', () => { flushNames(); nav.back(); });

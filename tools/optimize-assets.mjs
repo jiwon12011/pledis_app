@@ -134,9 +134,9 @@ async function characters() {
       }
       await fromRaw(raw).webp(NEAR).toFile(outPath);
     } else {
-      // 일부 포즈/컷 가장자리에 구워진 흰 경계선 제거: 3px 링 소거 (캐릭터 패딩이 넉넉해 안전)
+      // 일부 포즈/컷 가장자리에 구워진 흰 경계선 제거 — 선이 가장자리에서 최대 ~10px 안쪽까지 존재해 12px 링 소거 (패딩 넉넉해 안전)
       const raw = await rawOf(src);
-      const R = 3;
+      const R = 12;
       for (let y = 0; y < raw.h; y++) for (let x = 0; x < raw.w; x++) {
         if (x < R || y < R || x >= raw.w - R || y >= raw.h - R) raw.data[(y * raw.w + x) * 4 + 3] = 0;
       }
@@ -240,10 +240,29 @@ async function ui() {
   for (const file of (await readdir(dir)).filter((f) => f.endsWith('.png'))) {
     const name = file.replace('.png', '');
     const outPath = path.join(OUT, 'ui', `${name}.webp`);
-    await sharp(path.join(dir, file)).webp({ lossless: true }).toFile(outPath);
+    if (name.startsWith('arrow-')) {
+      // 화살표 에셋엔 버튼 외 장식 오브젝트가 섞여 있음 → 가장 크고 정사각에 가까운 덩어리(버튼)만 크롭
+      const raw = await rawOf(path.join(dir, file));
+      const solid = (x, y) => raw.data[(y * raw.w + x) * 4 + 3] > 16;
+      const comps = components(raw, solid).filter((c) => c.count > 100);
+      const best = comps.reduce((a, b) => (score(b) > score(a) ? b : a), comps[0]);
+      const pad = 6;
+      const left = Math.max(0, best.minX - pad), top = Math.max(0, best.minY - pad);
+      await fromRaw(raw).extract({
+        left, top,
+        width: Math.min(raw.w, best.maxX + pad + 1) - left,
+        height: Math.min(raw.h, best.maxY + pad + 1) - top,
+      }).webp({ lossless: true }).toFile(outPath);
+    } else {
+      await sharp(path.join(dir, file)).webp({ lossless: true }).toFile(outPath);
+    }
     await record(`ui/${name}`, outPath);
   }
 }
+const score = (c) => {
+  const w = c.maxX - c.minX + 1, h = c.maxY - c.minY + 1;
+  return c.count * (Math.min(w, h) / Math.max(w, h));
+};
 
 // ---------- 실행 + 검증 게이트 ----------
 await ensure(OUT);

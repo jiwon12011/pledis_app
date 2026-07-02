@@ -13,7 +13,7 @@ export interface Save {
   unlocked: string[];
   currentScene: string;
   umbrellaColor: UmbrellaColor;
-  flags: { seen21Credit: boolean; onboarded: boolean };
+  flags: { seen21Credit: boolean; onboarded: boolean; homeHintSeen: boolean };
   settings: { reducedMotion: boolean | null };
 }
 
@@ -37,7 +37,7 @@ function freshSave(): Save {
     unlocked: ['scene-01'],
     currentScene: 'scene-01',
     umbrellaColor: 'blue',
-    flags: { seen21Credit: false, onboarded: false },
+    flags: { seen21Credit: false, onboarded: false, homeHintSeen: false },
     settings: { reducedMotion: null },
   };
 }
